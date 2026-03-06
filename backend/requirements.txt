@@ -1,0 +1,2 @@
+# backend/requirements.txt
+websockets>=12.0

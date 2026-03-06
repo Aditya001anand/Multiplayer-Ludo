@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ludo</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div id="game-wrapper">
+        <div id="left-panel">
+            <h1>LUDO</h1>
+            <div id="status-card">
+                <p id="status">Connecting to server...</p>
+            </div>
+            <div id="turn-indicator">Waiting for game...</div>
+        </div>
+
+        <div id="ludo-board">
+            <div class="base base-green"></div>
+            <div class="base base-yellow"></div>
+            <div class="base base-red"></div>
+            <div class="base base-blue"></div>
+            <div class="center-home"></div>
+        </div>
+
+        <div id="right-panel">
+            <div class="dice-container">
+                <p id="dice-result">Roll: -</p>
+                <div id="dice" class="dice disabled">
+                    <div id="dice-layout" class="dice-layout"></div>
+                </div>
+                <p class="dice-label">Click to Roll</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="victory-overlay" class="hidden">
+        <h2>🎉 GAME OVER 🎉</h2>
+        <ul id="final-leaderboard">
+            </ul>
+        <button id="refresh-btn" onclick="location.reload()">Play Again</button>
+    </div>
+
+    <script src="js/ui.js"></script>
+    <script src="js/network.js"></script>
+</body>
+</html>

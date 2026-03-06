@@ -1,0 +1,7 @@
+# Python caches
+__pycache__/
+*.py[cod]
+
+# Virtual environments (if you used one)
+venv/
+env/
