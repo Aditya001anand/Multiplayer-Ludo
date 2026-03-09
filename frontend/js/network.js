@@ -1,6 +1,6 @@
 // frontend/js/network.js
 
-const socket = new WebSocket('ws://localhost:8765');
+const socket = new WebSocket('wss://multiplayer-ludo-22s7.onrender.com');
 
 socket.onopen = () => {
     updateStatus("Connected! Awaiting color assignment...", "#f1c40f"); 
