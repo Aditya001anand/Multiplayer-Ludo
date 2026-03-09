@@ -2,8 +2,8 @@
 import asyncio
 import websockets
 import json
-from game_state import GameState
 import os
+from game_state import GameState
 
 # Dictionary to store connected clients and their assigned colors
 clients = {}
@@ -24,6 +24,7 @@ async def broadcast(message):
 async def handle_client(websocket):
     """Handles the lifecycle of a single player's connection."""
     global AVAILABLE_COLORS
+    global game  # <--- FIXED: Moved to the very top of the function!
     
     # 1. Reject if lobby is full
     if len(clients) >= 4:
@@ -96,8 +97,8 @@ async def handle_client(websocket):
         # --- THE FIX: AUTO-RESET THE GAME ---
         if len(clients) == 0:
             print("[SERVER] All players left. Resetting the game board!")
-            global game
             game = GameState() # Creates a fresh, empty game board for the next group
+
 async def main():
     # Cloud providers assign a dynamic port. If local, default to 8765.
     port = int(os.environ.get("PORT", 8765))
@@ -107,5 +108,6 @@ async def main():
     # "0.0.0.0" allows the server to accept connections from the outside internet
     async with websockets.serve(handle_client, "0.0.0.0", port):
         await asyncio.Future()
+
 if __name__ == "__main__":
     asyncio.run(main())
