@@ -6,6 +6,9 @@
     --color-yellow: #ffd700;
     --board-bg: #ffffff;
     --border-color: #000000;
+    /* --- NEW: Default Desktop Sizes --- */
+    --cell-size: 36px;
+    --token-size: 24px;
 }
 
 body {
@@ -46,8 +49,9 @@ body.theme-yellow { background: radial-gradient(circle at center, #4a4a11 0%, #1
 /* --- THE BOARD --- */
 #ludo-board {
     display: grid;
-    grid-template-columns: repeat(15, 36px); 
-    grid-template-rows: repeat(15, 36px);
+    /* UPDATED: Using variables for responsive sizing */
+    grid-template-columns: repeat(15, var(--cell-size)); 
+    grid-template-rows: repeat(15, var(--cell-size));
     background-color: var(--board-bg);
     border: 3px solid var(--border-color);
     box-shadow: 0 0 40px rgba(0,0,0,0.8); /* Centered shadow so rotation doesn't break it */
@@ -73,7 +77,8 @@ body.theme-yellow { background: radial-gradient(circle at center, #4a4a11 0%, #1
 }
 
 .token {
-    width: 24px; height: 24px; border-radius: 50%;
+    /* UPDATED: Using variables for responsive sizing */
+    width: var(--token-size); height: var(--token-size); border-radius: 50%;
     border: 2px solid white; box-shadow: 0 0 6px 2px rgba(0,0,0,0.6); /* Centered shadow */
     z-index: 10; place-self: center; cursor: pointer; transition: all 0.2s;
 }
@@ -165,4 +170,48 @@ body.theme-yellow { background: radial-gradient(circle at center, #4a4a11 0%, #1
     font-size: 24px;
     color: #bdc3c7; /* Subtle light grey */
     text-shadow: 0 1px 2px rgba(0,0,0,0.2); /* Slight shadow to match the board */
+}
+
+/* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 800px) {
+    :root {
+        /* 15 grid cells * 6vw = 90% of the screen width */
+        --cell-size: 6vw;  
+        --token-size: 4vw;
+    }
+
+    body {
+        height: auto; 
+        overflow-y: auto; /* Turn scrolling back on for small screens */
+        padding: 20px 0;
+        display: block; /* Removes the hard vertical centering */
+    }
+
+    #game-wrapper {
+        flex-direction: column; /* Stack the UI elements vertically */
+        align-items: center;
+        gap: 20px;
+        width: 95%;
+        margin: 0 auto;
+    }
+
+    #left-panel, #right-panel {
+        width: 100%;
+        align-items: center;
+        text-align: center;
+    }
+
+    #turn-indicator {
+        font-size: 1.8rem; /* Shrink the giant text so it fits */
+    }
+
+    #victory-overlay {
+        width: 85%; /* Prevent the victory screen from overflowing */
+        padding: 30px;
+        box-sizing: border-box;
+    }
+    
+    #victory-overlay h2 {
+        font-size: 2rem;
+    }
 }
