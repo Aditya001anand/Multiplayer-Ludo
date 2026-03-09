@@ -3,6 +3,7 @@ import asyncio
 import websockets
 import json
 from game_state import GameState
+import os
 
 # Dictionary to store connected clients and their assigned colors
 clients = {}
@@ -94,9 +95,13 @@ async def handle_client(websocket):
             AVAILABLE_COLORS.sort(key=lambda x: ["Red", "Blue", "Yellow", "Green"].index(x))
 
 async def main():
-    print("[SERVER] Starting Authoritative Ludo Server on ws://localhost:8765")
-    async with websockets.serve(handle_client, "localhost", 8765):
+    # Cloud providers assign a dynamic port. If local, default to 8765.
+    port = int(os.environ.get("PORT", 8765))
+    
+    print(f"[SERVER] Starting Authoritative Ludo Server on port {port}")
+    
+    # "0.0.0.0" allows the server to accept connections from the outside internet
+    async with websockets.serve(handle_client, "0.0.0.0", port):
         await asyncio.Future()
-
 if __name__ == "__main__":
     asyncio.run(main())
