@@ -85,15 +85,19 @@ async def handle_client(websocket):
         print(f"[NETWORK] Player {assigned_color} disconnected.")
         
     finally:
-        # 6. Cleanup on disconnect
+        # Cleanup on disconnect
         if websocket in clients:
             del clients[websocket]
             AVAILABLE_COLORS.append(assigned_color)
             
-            # --- UPDATED: Sorting fallback ---
             # Keeps the list in the correct order if a player drops mid-lobby
             AVAILABLE_COLORS.sort(key=lambda x: ["Red", "Blue", "Yellow", "Green"].index(x))
 
+        # --- THE FIX: AUTO-RESET THE GAME ---
+        if len(clients) == 0:
+            print("[SERVER] All players left. Resetting the game board!")
+            global game
+            game = GameState() # Creates a fresh, empty game board for the next group
 async def main():
     # Cloud providers assign a dynamic port. If local, default to 8765.
     port = int(os.environ.get("PORT", 8765))
